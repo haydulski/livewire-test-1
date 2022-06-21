@@ -14,7 +14,7 @@ class Workout extends Component
     public string  $workoutId;
     public array $workout;
 
-    private array $def = [
+    private const DEF = [
         "bodyPart" => "upper legs",
         "equipment" => "body weight",
         "gifUrl" => "http://d205bpvrqc9yn1.cloudfront.net/1512.gif",
@@ -41,7 +41,7 @@ class Workout extends Component
 
     private function setWorkoutData(): void
     {
-        $all = Cache::get('allExercises2', $this->def);
+        $all = Cache::get('allExercises2', self::DEF);
         if (count($all) < 2) {
             $this->workout = $all;
             return;
