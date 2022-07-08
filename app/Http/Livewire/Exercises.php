@@ -4,9 +4,9 @@ namespace App\Http\Livewire;
 
 use Exception;
 use Illuminate\Contracts\View\View;
-use Livewire\Component;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
+use Livewire\Component;
 
 class Exercises extends Component
 {
@@ -21,7 +21,7 @@ class Exercises extends Component
         'shoulders',
         'upper arms',
         'upper legs',
-        'waist'
+        'waist',
     ];
 
     public string $currentCat = 'all';
@@ -39,7 +39,6 @@ class Exercises extends Component
     public int $pgLoopStart = 1;
 
     public int $pagination = 8;
-
 
     public function render(): View
     {
@@ -60,7 +59,7 @@ class Exercises extends Component
 
     public function setPgNumber(string $number): void
     {
-        $this->pagination = (int)$number;
+        $this->pagination = (int) $number;
         $this->setPagination();
     }
 
@@ -71,7 +70,9 @@ class Exercises extends Component
                 $this->currentPage = $this->currentPage + 1;
                 break;
             case 'prev':
-                if ($this->currentPage === 1) return;
+                if ($this->currentPage === 1) {
+                    return;
+                }
                 $this->currentPage = $this->currentPage - 1;
                 break;
             default:
@@ -100,9 +101,9 @@ class Exercises extends Component
     private function updateExercises()
     {
         $this->allExercises = Cache::remember('allExercises2', 60 * 60 * 24 * 30, function () {
-            $response =  Http::withHeaders([
+            $response = Http::withHeaders([
                 'X-RapidAPI-Key' => env('RAPID_API_KEY'),
-                'X-RapidAPI-Host' => env('RAPID_HOST')
+                'X-RapidAPI-Host' => env('RAPID_HOST'),
             ])->get(env('EXERCISES_API_URL'));
             if ($response->successful()) {
                 return $response->json($key = null);
@@ -114,7 +115,7 @@ class Exercises extends Component
 
     private function setPagination(): void
     {
-        $this->pagesAmount = (int)count($this->allExercises) / $this->pagination;
-        $this->pgLoopStart =  (($this->currentPage * $this->pagination) + 1) - $this->pagination;
+        $this->pagesAmount = (int) count($this->allExercises) / $this->pagination;
+        $this->pgLoopStart = (($this->currentPage * $this->pagination) + 1) - $this->pagination;
     }
 }

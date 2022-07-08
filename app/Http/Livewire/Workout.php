@@ -10,17 +10,17 @@ use Livewire\Redirector;
 
 class Workout extends Component
 {
-
     public string  $workoutId;
+
     public array $workout;
 
     private const DEF = [
-        "bodyPart" => "upper legs",
-        "equipment" => "body weight",
-        "gifUrl" => "http://d205bpvrqc9yn1.cloudfront.net/1512.gif",
-        "id" => "1512",
-        "name" => "Check your cache data",
-        "target" => "quads"
+        'bodyPart' => 'upper legs',
+        'equipment' => 'body weight',
+        'gifUrl' => 'http://d205bpvrqc9yn1.cloudfront.net/1512.gif',
+        'id' => '1512',
+        'name' => 'Check your cache data',
+        'target' => 'quads',
     ];
 
     public function render(): View
@@ -44,8 +44,9 @@ class Workout extends Component
         $all = Cache::get('allExercises2', self::DEF);
         if (count($all) < 2) {
             $this->workout = $all;
+
             return;
-        };
+        }
         $id = $this->workoutId;
         $workout = array_filter($all, function ($single) use ($id) {
             return $single['id'] === $id;
