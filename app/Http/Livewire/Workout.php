@@ -23,15 +23,15 @@ class Workout extends Component
         'target' => 'quads',
     ];
 
-    public function render(): View
-    {
-        return view('livewire.workout');
-    }
-
     public function mount(): void
     {
         $this->workoutId = Route::current()->parameter('id');
         $this->setWorkoutData();
+    }
+
+    public function render(): View
+    {
+        return view('livewire.workout');
     }
 
     public function goBack(): Redirector

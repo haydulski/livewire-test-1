@@ -40,16 +40,16 @@ class Exercises extends Component
 
     public int $pagination = 8;
 
-    public function render(): View
-    {
-        return view('livewire.exercises');
-    }
-
     public function mount(): void
     {
         $this->updateExercises();
         $this->setPagination();
         $this->noFilterExercises = $this->allExercises;
+    }
+
+    public function render(): View
+    {
+        return view('livewire.exercises');
     }
 
     public function getExercises(string $name): array
@@ -98,7 +98,7 @@ class Exercises extends Component
         $this->setPagination();
     }
 
-    private function updateExercises()
+    private function updateExercises(): void
     {
         $this->allExercises = Cache::remember('allExercises2', 60 * 60 * 24 * 30, function () {
             $response = Http::withHeaders([
